@@ -3,6 +3,10 @@
  * Author: yutaka usui 
  *
  * Created on 2021/04/29, 14:07
+ * ver1.1 : 2021/6/20 add Qbar output on RA2
+ * 
+ * GP2(5) : OUT
+ * GP5(2) : OUT bar
  */
 
 
@@ -35,7 +39,8 @@ void main(void) {
     tsec = 0;
     endflag = 0;
 
-    GPIO2 = 1;
+    GPIO2 = 1;   // Q
+    GPIO5 = 0;   // not Q
     
     while (endflag == 0) {
         if (TMR1IF == 1) {
@@ -51,7 +56,7 @@ void main(void) {
         if (tcnt >= 20) { // 1sec : 50msx20
             tsec++;
             tcnt = 0;
-            GPIO5 = ~GPIO5;
+            //GPIO5 = ~GPIO5;   // monitor out
         }
 
         if (tsec >= TIMER_MIN*60  ) {
@@ -61,6 +66,7 @@ void main(void) {
     }
     
     GPIO2 = 0;
+    GPIO5 = 1;
     while (1) ;
     
     return;
